@@ -1,4 +1,4 @@
-# go-sentry [![Go Reference](https://pkg.go.dev/badge/github.com/jianyuan/go-sentry/v2/sentry.svg)](https://pkg.go.dev/github.com/jianyuan/go-sentry/v2/sentry)
+# go-sentry [![Go Reference](https://pkg.go.dev/badge/github.com/mzglinski/go-sentry/v2/sentry.svg)](https://pkg.go.dev/github.com/mzglinski/go-sentry/v2/sentry)
 
 Go library for accessing the [Sentry Web API](https://docs.sentry.io/api/).
 
@@ -6,13 +6,13 @@ Go library for accessing the [Sentry Web API](https://docs.sentry.io/api/).
 go-sentry is compatible with modern Go releases in module mode, with Go installed:
 
 ```sh
-go get github.com/jianyuan/go-sentry/v2/sentry
+go get github.com/mzglinski/go-sentry/v2/sentry
 ```
 
 ## Usage
 
 ```go
-import "github.com/jianyuan/go-sentry/v2/sentry"
+import "github.com/mzglinski/go-sentry/v2/sentry"
 ```
 
 Create a new Sentry client. Then, use the various services on the client to access different parts of the
@@ -35,7 +35,7 @@ library. For example:
 package main
 
 import (
-	"github.com/jianyuan/go-sentry/v2/sentry"
+	"github.com/mzglinski/go-sentry/v2/sentry"
 	"golang.org/x/oauth2"
 )
 
