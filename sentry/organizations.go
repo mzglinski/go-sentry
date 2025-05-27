@@ -38,7 +38,7 @@ type Organization struct {
 	IsEarlyAdopter           *bool               `json:"isEarlyAdopter,omitempty"`
 	Require2FA               *bool               `json:"require2FA,omitempty"`
 	RequireEmailVerification *bool               `json:"requireEmailVerification,omitempty"`
-	Avatar                   *Avatar             `json:"avatar,omitempty"`
+	Avatar                   *OrganizationAvatar `json:"avatar,omitempty"`
 	Features                 []string            `json:"features,omitempty"`
 
 	// Detailed
@@ -65,11 +65,38 @@ type Organization struct {
 	ScrapeJavaScript     *bool                       `json:"scrapeJavaScript,omitempty"`
 	AllowJoinRequests    *bool                       `json:"allowJoinRequests,omitempty"`
 	RelayPiiConfig       *string                     `json:"relayPiiConfig,omitempty"`
-	// TODO: trustedRelays
-	Access                []string `json:"access,omitempty"`
-	Role                  *string  `json:"role,omitempty"`
-	PendingAccessRequests *int     `json:"pendingAccessRequests,omitempty"`
+	TrustedRelays        []TrustedRelay              `json:"trustedRelays,omitempty"`
+	Access               []string                    `json:"access,omitempty"`
+	Role                 *string                     `json:"role,omitempty"`
+	PendingAccessRequests *int                        `json:"pendingAccessRequests,omitempty"`
 	// TODO: onboardingTasks
+
+	// Fields from Update API, not necessarily in GET response structure but useful for consistency
+	HideAIFeatures      *bool `json:"hideAiFeatures,omitempty"`
+	CodecovAccess       *bool `json:"codecovAccess,omitempty"`
+	GithubPRBot         *bool `json:"githubPRBot,omitempty"`
+	GithubOpenPRBot     *bool `json:"githubOpenPRBot,omitempty"`
+	GithubNudgeInvite   *bool `json:"githubNudgeInvite,omitempty"`
+	GitlabPRBot         *bool `json:"gitlabPRBot,omitempty"`
+	AllowMemberProjectCreation *bool `json:"allowMemberProjectCreation,omitempty"`
+}
+
+// OrganizationAvatar represents a Sentry organization's avatar.
+// This is distinct from the User's Avatar struct.
+type OrganizationAvatar struct {
+	AvatarType *string `json:"avatarType,omitempty"`
+	AvatarUUID *string `json:"avatarUuid,omitempty"`
+	// Avatar (base64 content) is not part of the GET response, it is for uploads via UpdateOrganizationParams
+}
+
+// TrustedRelay represents a Sentry organization's trusted relay.
+type TrustedRelay struct {
+	ID          *string    `json:"id,omitempty"`
+	Name        *string    `json:"name,omitempty"`
+	PublicKey   *string    `json:"publicKey,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	DateCreated *time.Time `json:"dateCreated,omitempty"`
+	LastSeen    *time.Time `json:"lastSeen,omitempty"`
 }
 
 // OrganizationsService provides methods for accessing Sentry organization API endpoints.
@@ -139,8 +166,44 @@ func (s *OrganizationsService) Create(ctx context.Context, params *CreateOrganiz
 
 // UpdateOrganizationParams are the parameters for OrganizationService.Update.
 type UpdateOrganizationParams struct {
-	Name *string `json:"name,omitempty"`
-	Slug *string `json:"slug,omitempty"`
+	Name                 *string                      `json:"name,omitempty"`
+	Slug                 *string                      `json:"slug,omitempty"`
+	IsEarlyAdopter       *bool                        `json:"isEarlyAdopter,omitempty"`
+	HideAIFeatures       *bool                        `json:"hideAiFeatures,omitempty"`
+	CodecovAccess        *bool                        `json:"codecovAccess,omitempty"`
+	DefaultRole          *string                      `json:"defaultRole,omitempty"`
+	OpenMembership       *bool                        `json:"openMembership,omitempty"`
+	EventsMemberAdmin    *bool                        `json:"eventsMemberAdmin,omitempty"`
+	AlertsMemberWrite    *bool                        `json:"alertsMemberWrite,omitempty"`
+	AttachmentsRole      *string                      `json:"attachmentsRole,omitempty"`
+	DebugFilesRole       *string                      `json:"debugFilesRole,omitempty"`
+	AvatarType           *string                      `json:"avatarType,omitempty"`
+	Avatar               *string                      `json:"avatar,omitempty"` // base64 encoded image
+	Require2FA           *bool                        `json:"require2FA,omitempty"`
+	AllowSharedIssues    *bool                        `json:"allowSharedIssues,omitempty"`
+	EnhancedPrivacy      *bool                        `json:"enhancedPrivacy,omitempty"`
+	ScrapeJavaScript     *bool                        `json:"scrapeJavaScript,omitempty"`
+	StoreCrashReports    *int                         `json:"storeCrashReports,omitempty"`
+	AllowJoinRequests    *bool                        `json:"allowJoinRequests,omitempty"`
+	DataScrubber         *bool                        `json:"dataScrubber,omitempty"`
+	DataScrubberDefaults *bool                        `json:"dataScrubberDefaults,omitempty"`
+	SensitiveFields      []string                     `json:"sensitiveFields,omitempty"`
+	SafeFields           []string                     `json:"safeFields,omitempty"`
+	ScrubIPAddresses     *bool                        `json:"scrubIPAddresses,omitempty"`
+	RelayPiiConfig       *string                      `json:"relayPiiConfig,omitempty"`
+	TrustedRelays        []TrustedRelayUpdateParams `json:"trustedRelays,omitempty"`
+	GithubPRBot          *bool                        `json:"githubPRBot,omitempty"`
+	GithubOpenPRBot      *bool                        `json:"githubOpenPRBot,omitempty"`
+	GithubNudgeInvite    *bool                        `json:"githubNudgeInvite,omitempty"`
+	GitlabPRBot          *bool                        `json:"gitlabPRBot,omitempty"`
+	AllowMemberProjectCreation *bool                  `json:"allowMemberProjectCreation,omitempty"`
+}
+
+// TrustedRelayUpdateParams are the parameters for updating trusted relays.
+type TrustedRelayUpdateParams struct {
+	Name        *string `json:"name,omitempty"`
+	PublicKey   *string `json:"publicKey,omitempty"`
+	Description *string `json:"description,omitempty"`
 }
 
 // Update a Sentry organization.
