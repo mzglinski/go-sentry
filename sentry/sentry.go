@@ -68,6 +68,7 @@ type Client struct {
 	SpikeProtections          *SpikeProtectionsService
 	TeamMembers               *TeamMembersService
 	Teams                     *TeamsService
+	Uptime                    *UptimeService
 	ExternalUsers             *ExternalUserService
 }
 
@@ -111,6 +112,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.SpikeProtections = (*SpikeProtectionsService)(&c.common)
 	c.TeamMembers = (*TeamMembersService)(&c.common)
 	c.Teams = (*TeamsService)(&c.common)
+	c.Uptime = (*UptimeService)(&c.common)
 	c.ExternalUsers = (*ExternalUserService)(&c.common)
 	return c
 }
@@ -196,6 +198,7 @@ func (c *Client) NewRequest(method, urlRef string, body interface{}) (*http.Requ
 	if c.UserAgent != "" {
 		req.Header.Set("User-Agent", c.UserAgent)
 	}
+	req.Header.Set("Referer", c.BaseURL.String())
 	return req, nil
 }
 
