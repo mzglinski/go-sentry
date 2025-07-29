@@ -45,9 +45,9 @@ func TestOrganizationsService_List(t *testing.T) {
 			Name:           String("The Interstellar Jurisdiction"),
 			DateCreated:    Time(mustParseTime("2017-07-17T14:10:36.141Z")),
 			IsEarlyAdopter: Bool(false),
-			Avatar: &Avatar{
-				UUID: nil,
-				Type: "letter_avatar",
+			Avatar: &OrganizationAvatar{
+				AvatarUUID: nil,
+				AvatarType: String("letter_avatar"),
 			},
 		},
 	}
@@ -388,8 +388,8 @@ func TestOrganizationsService_Get(t *testing.T) {
 		IsEarlyAdopter:           Bool(false),
 		Require2FA:               Bool(false),
 		RequireEmailVerification: Bool(false),
-		Avatar: &Avatar{
-			Type: "letter_avatar",
+		Avatar: &OrganizationAvatar{
+			AvatarType: String("letter_avatar"),
 		},
 		Features: []string{
 			"release-health-return-metrics",
@@ -547,6 +547,7 @@ func TestOrganizationsService_Get(t *testing.T) {
 		ScrapeJavaScript:     Bool(true),
 		AllowJoinRequests:    Bool(true),
 		RelayPiiConfig:       nil,
+		TrustedRelays:        []TrustedRelay{},
 		Access: []string{
 			"org:write",
 			"team:admin",

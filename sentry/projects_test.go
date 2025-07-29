@@ -156,8 +156,8 @@ func TestProjectsService_List(t *testing.T) {
 		DateCreated:    Time(mustParseTime("2018-09-20T15:47:52.908Z")),
 		IsEarlyAdopter: Bool(false),
 		Require2FA:     Bool(false),
-		Avatar: &Avatar{
-			Type: "letter_avatar",
+		Avatar: &OrganizationAvatar{
+			AvatarType: String("letter_avatar"),
 		},
 	}
 	expected := []*Project{
@@ -384,8 +384,8 @@ func TestProjectsService_Get(t *testing.T) {
 		DateCreated:    Time(mustParseTime("2018-10-02T14:19:09.817Z")),
 		IsEarlyAdopter: Bool(false),
 		Require2FA:     Bool(false),
-		Avatar: &Avatar{
-			Type: "letter_avatar",
+		Avatar: &OrganizationAvatar{
+			AvatarType: String("letter_avatar"),
 		},
 	}
 	expected := &Project{
